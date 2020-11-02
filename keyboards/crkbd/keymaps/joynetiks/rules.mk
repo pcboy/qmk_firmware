@@ -13,7 +13,7 @@ SRC +=  ./lib/glcdfont.c \
         # ./lib/timelogger.c \
 
 MH_OLED_IMAGE=image.c
-this_dir=keyboards/crkbd/keymaps/default
+this_dir=keyboards/crkbd/keymaps/joynetiks
 images=$(this_dir)/mh_images
 originals=$(images)/originals
 converted=$(images)/converted
