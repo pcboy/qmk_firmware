@@ -174,6 +174,60 @@ void iota_gfx_task_user(void) {
 }
 #endif//SSD1306OLED
 
+#if defined OLED_DRIVER_ENABLE
+
+#if defined MH_OLED_TIMEOUT
+static uint32_t mh_oled_timer;
+#endif
+
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+  return isLeftHand || mh_image_portrait ? rotation : OLED_ROTATION_180;
+}
+
+void oled_task_user(void) {
+  if (isLeftHand) {
+    // Host Keyboard Layer Status
+    oled_write_P(PSTR("Layer: "), false);
+    switch (get_highest_layer(layer_state)) {
+      case _QWERTY:
+        oled_write_P(PSTR("Default\n"), false);
+        break;
+      case _RAISE:
+        oled_write_P(PSTR("RAISE\n"), false);
+        break;
+      case _LOWER:
+        oled_write_P(PSTR("LOWER\n"), false);
+        break;
+      case _ADJUST:
+        oled_write_P(PSTR("ADJ\n"), false);
+        break;
+      default:
+        // Or use the write_ln shortcut over adding '\n' to the end of your string
+        oled_write_ln_P(PSTR("Undefined"), false);
+    }
+
+    // Host Keyboard LED Status
+    led_t led_state = host_keyboard_led_state();
+    oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false);
+    oled_write_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
+    oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
+
+    #if defined MH_OLED_TIMEOUT
+      #if defined CONSOLE_ENABLE
+    uprintf("mh_oled_timer elapsed: %d\n", (int)timer_elapsed32(mh_oled_timer));
+      #endif
+    if (timer_elapsed32(mh_oled_timer) > OLED_TIMEOUT) {
+      oled_off();
+      return;
+    }
+    #endif // defined MH_OLED_TIMEOUT
+ } else {
+    oled_write_raw_P(mh_image, mh_image_size);
+  }
+}
+
+#endif // defined OLED_DRIVER_ENABLE
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
 #ifdef SSD1306OLED

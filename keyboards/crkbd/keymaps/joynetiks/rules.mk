@@ -1,17 +1,8 @@
-#OLED_DRIVER_ENABLE = yes
+OLED_DRIVER_ENABLE = yes
 RGBLIGHT_ENABLE=yes
 SLEEP_LED_ENABLE=yes
-# If you want to change the display of OLED, you need to change here
-SRC +=  ./lib/glcdfont.c \
-        ./lib/rgb_state_reader.c \
-        ./lib/layer_state_reader.c \
-        ./lib/logo_reader.c \
-        ./lib/keylogger.c \
-				# ./drivers/oled/oled_driver.c \
-        # ./lib/mode_icon_reader.c \
-        # ./lib/host_led_state_reader.c \
-        # ./lib/timelogger.c \
 
+SSD1306OLED=no
 MH_OLED_IMAGE=image.c
 this_dir=keyboards/crkbd/keymaps/joynetiks
 images=$(this_dir)/mh_images

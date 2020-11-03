@@ -36,5 +36,5 @@ SLEEP_LED_ENABLE = no    # Breathing sleep LED during USB suspend
 # if firmware size over limit, try this option
 # CFLAGS += -flto
 LAYOUTS = split_3x5_3 split_3x6_3
-
-DEFAULT_FOLDER = crkbd/rev1/legacy
+CUSTOM_MATRIX = yes
+DEFAULT_FOLDER = crkbd/rev1
